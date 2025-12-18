@@ -16,32 +16,21 @@ try {
 const app = express();
 
 /* =========================
-   CORS CONFIG (FIXED)
+   ✅ CORS — FINAL FIX
    Allows:
-   - All Vercel preview domains
-   - Production Vercel domain
-   - Localhost
+   - ALL Vercel preview domains
+   - Production domain
+   - POST / GET / OPTIONS
 ========================= */
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow server-to-server, Postman, etc.
-      if (!origin) return callback(null, true);
-
-      if (
-        origin.includes(".vercel.app") ||
-        origin === "http://localhost:5173"
-      ) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Not allowed by CORS"));
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: true, // 👈 allow ALL origins
     credentials: true,
   })
 );
+
+// Explicitly handle preflight
+app.options('*', cors());
 
 // Body parsers
 app.use(express.json());
