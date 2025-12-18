@@ -16,14 +16,27 @@ try {
 const app = express();
 
 /* =========================
-   CORS CONFIG (IMPORTANT)
+   CORS CONFIG (FIXED)
+   Allows:
+   - All Vercel preview domains
+   - Production Vercel domain
+   - Localhost
 ========================= */
 app.use(
   cors({
-    origin: [
-      "https://foody-ham-frontend.vercel.app", // Vercel frontend
-      "http://localhost:5173",                 // local dev
-    ],
+    origin: (origin, callback) => {
+      // Allow server-to-server, Postman, etc.
+      if (!origin) return callback(null, true);
+
+      if (
+        origin.includes(".vercel.app") ||
+        origin === "http://localhost:5173"
+      ) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
