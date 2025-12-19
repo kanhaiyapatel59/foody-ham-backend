@@ -16,7 +16,7 @@ router.post('/spin', protect, spinWheel);
 router.get('/history', protect, getSpinHistory);
 
 // Admin routes
-router.get('/admin/config', protect, admin, getSpinConfig);
-router.put('/admin/config', protect, admin, updateSpinConfig);
+router.get('/admin/config', protect, getSpinConfig);
+router.put('/admin/config', protect, updateSpinConfig);
 
 module.exports = router;
