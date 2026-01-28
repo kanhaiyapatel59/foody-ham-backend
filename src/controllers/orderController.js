@@ -71,6 +71,8 @@ exports.getOrder = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
+    console.log('Received order data:', JSON.stringify(req.body, null, 2));
+    
     const {
       items,
       shippingAddress,
@@ -85,6 +87,8 @@ exports.createOrder = async (req, res) => {
         message: "No order items" 
       });
     }
+
+    console.log('Order items:', items);
 
     if (!req.user || !req.user.id) {
       return res.status(401).json({ 
