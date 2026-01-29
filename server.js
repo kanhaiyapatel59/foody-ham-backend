@@ -65,6 +65,7 @@ const foodDiaryRoutes = require('./src/routes/foodDiaryRoutes');
 const promotionRoutes = require('./src/routes/promotionRoutes');
 const loyaltyRoutes = require('./src/routes/loyaltyRoutes');
 const spinRoutes = require('./src/routes/spinRoutes');
+const subscriptionRoutes = require('./src/routes/subscriptionRoutes');
 
 /* =========================
    HEALTH CHECK
@@ -95,6 +96,7 @@ app.use('/api/food-diary', foodDiaryRoutes);
 app.use('/api/promotions', promotionRoutes);
 app.use('/api/loyalty', loyaltyRoutes);
 app.use('/api/spin', spinRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
 
 /* =========================
    ERROR HANDLING
