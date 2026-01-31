@@ -1,12 +1,10 @@
-// Try to require nodemailer, fallback to null if not available
+
 let nodemailer = null;
 try {
   nodemailer = require('nodemailer');
 } catch (error) {
   console.log('⚠️ Nodemailer not installed, using mock emails only');
 }
-
-// Create transporter based on environment
 const createTransporter = () => {
   if (process.env.EMAIL_ENABLED === 'true' && nodemailer) {
     try {
@@ -35,7 +33,6 @@ try {
 const emailService = {
   async sendOrderConfirmation(userEmail, orderData) {
     if (process.env.EMAIL_ENABLED === 'true' && transporter) {
-      // Send real email
       try {
         const mailOptions = {
           from: process.env.EMAIL_FROM,
