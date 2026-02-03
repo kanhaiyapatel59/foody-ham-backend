@@ -1,7 +1,7 @@
 const Subscription = require('../models/Subscription');
 const Product = require('../models/Product');
 
-// Create subscription
+
 const createSubscription = async (req, res) => {
   try {
     console.log('Creating subscription with data:', req.body);

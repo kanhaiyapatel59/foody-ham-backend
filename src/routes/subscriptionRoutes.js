@@ -10,7 +10,7 @@ const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-router.use(protect); // All routes require authentication
+router.use(protect); 
 
 router.post('/', createSubscription);
 router.get('/', getUserSubscriptions);
