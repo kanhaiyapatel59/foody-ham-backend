@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// ✅ Import the new changePassword controller function
 const { 
     register, 
     login, 

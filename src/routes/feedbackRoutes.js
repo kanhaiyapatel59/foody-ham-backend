@@ -3,10 +3,6 @@ const router = express.Router();
 const Feedback = require('../models/FeedbackModel'); 
 // Assuming the middleware path is correct. You MUST import them here:
 const { protect, admin } = require('../middleware/authMiddleware'); 
-
-// =========================================================
-// 1. POST /api/feedback (SUBMISSION - Already functional)
-// =========================================================
 router.post('/', async (req, res) => {
     const { rating, comment, name, email } = req.body;
     if (!rating || !comment) {

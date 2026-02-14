@@ -63,8 +63,21 @@ exports.addToCart = async (req, res) => {
         );
 
         if (existingItem) {
-            existingItem.quantity += quantity;
+            const newQuantity = existingItem.quantity + quantity;
+            if (newQuantity > 10) {
+                return res.status(400).json({
+                    success: false,
+                    message: '⚠️ Maximum quantity limit reached! You can only add up to 10 items of this product.'
+                });
+            }
+            existingItem.quantity = newQuantity;
         } else {
+            if (quantity > 10) {
+                return res.status(400).json({
+                    success: false,
+                    message: '⚠️ Maximum quantity limit is 10 items per product.'
+                });
+            }
             cart.items.push({
                 product: product._id,
                 name: product.name,       
@@ -100,6 +113,14 @@ exports.updateQuantity = async (req, res) => {
     try {
         const { productId } = req.params;
         const { quantity } = req.body;
+
+        if (quantity > 10) {
+            return res.status(400).json({
+                success: false,
+                message: '⚠️ Maximum quantity limit is 10 items per product.'
+            });
+        }
+
         const cart = await getOrCreateCart(req.user.id);
 
         const item = cart.items.find(
