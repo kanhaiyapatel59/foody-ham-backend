@@ -42,12 +42,10 @@ app.use('/uploads', express.static('uploads'));
 /* =========================
    DATABASE CONNECTION
 ========================= */
-if (!process.env.MONGO_URI) {
-  console.error('❌ MONGO_URI is not defined in environment variables!');
-}
+const mongoURI = process.env.MONGO_URI || 'mongodb+srv://kanhaiya:patel@foodyham.anqqbp7.mongodb.net/Foody_Ham';
 
 mongoose
-  .connect(process.env.MONGO_URI, {
+  .connect(mongoURI, {
     serverSelectionTimeoutMS: 5000,
   })
   .then(() => console.log('✅ MongoDB Connected Successfully'))
