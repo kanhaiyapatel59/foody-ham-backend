@@ -42,8 +42,14 @@ app.use('/uploads', express.static('uploads'));
 /* =========================
    DATABASE CONNECTION
 ========================= */
+if (!process.env.MONGO_URI) {
+  console.error('❌ MONGO_URI is not defined in environment variables!');
+}
+
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 5000,
+  })
   .then(() => console.log('✅ MongoDB Connected Successfully'))
   .catch(err => console.error('❌ MongoDB Connection Error:', err.message));
 
@@ -67,13 +73,17 @@ const loyaltyRoutes = require('./src/routes/loyaltyRoutes');
 const spinRoutes = require('./src/routes/spinRoutes');
 const subscriptionRoutes = require('./src/routes/subscriptionRoutes');
 
+
 /* =========================
    HEALTH CHECK
 ========================= */
 app.get('/', (req, res) => {
+  const dbState = mongoose.connection.readyState;
+  const dbStatus = ['disconnected', 'connected', 'connecting', 'disconnecting'][dbState] || 'unknown';
   res.json({
     message: 'Welcome to Foody-Ham API',
     status: 'Server is running',
+    database: dbStatus,
     version: '1.0.0',
   });
 });
@@ -97,6 +107,7 @@ app.use('/api/promotions', promotionRoutes);
 app.use('/api/loyalty', loyaltyRoutes);
 app.use('/api/spin', spinRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
+
 
 /* =========================
    ERROR HANDLING
